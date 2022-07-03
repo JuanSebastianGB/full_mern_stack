@@ -14,6 +14,7 @@ import { GoogleLogin } from 'react-google-login';
 import Icon from './Icon';
 
 const Auth = () => {
+  console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID);
   const classes = useStyles();
   const [isSignup, setIsSignup] = useState(true);
   const handleSubmit = () => {};
@@ -111,7 +112,7 @@ const Auth = () => {
           </Button>
           <Grid
             container
-            justify='flex-end'
+            justifyContent='flex-end'
           >
             <Grid item>
               <Typography variant='body2'>
@@ -120,7 +121,7 @@ const Auth = () => {
                   : "Don't have an account?"}
               </Typography>
               <GoogleLogin
-                clientId='564033717568-e5p23rhvcs4i6kffgsbci1d64r8hp6fn.apps.googleusercontent.com'
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 render={renderProps => (
                   <Button
                     className={classes.googleButton}
@@ -141,7 +142,7 @@ const Auth = () => {
               <Button
                 onClick={changeMode}
                 variant='contained'
-                color='success'
+                color='primary'
               >
                 {isSignup ? 'Sign In' : 'Sign Up'}
               </Button>
