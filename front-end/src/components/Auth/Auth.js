@@ -12,17 +12,18 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Input from '../Input/Input';
 import { GoogleLogin } from 'react-google-login';
 import Icon from './Icon';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authenticate } from '../../actions/authActions.js';
 import { useNavigate } from 'react-router-dom';
+import { useLoginForm } from '../../hooks/useLoginForm';
 
 const Auth = () => {
   const navigate = useNavigate();
   const classes = useStyles();
   const dispatch = useDispatch();
   const [isSignup, setIsSignup] = useState(true);
-  const handleSubmit = () => {};
-  const handleChange = () => {};
+  const [handleChange, handleSubmit] = useLoginForm({ isSignup });
+  const formData = useSelector(state => state.auth.formData);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -72,14 +73,16 @@ const Auth = () => {
               <Fragment>
                 <Input
                   name='firstName'
-                  label='firstName'
+                  label='First Name'
+                  value={formData.firstName}
                   handleChange={handleChange}
                   half
                   autoFocus
                 />
                 <Input
                   name='lastName'
-                  label='lastName'
+                  label='Last Name'
+                  value={formData.lastName}
                   half
                   handleChange={handleChange}
                 />
@@ -88,12 +91,14 @@ const Auth = () => {
             <Input
               name='email'
               label='Email Address'
+              value={formData.email}
               handleChange={handleChange}
               type='email'
             />
             <Input
               name='password'
               label='Password'
+              value={formData.password}
               handleChange={handleChange}
               type={showPassword ? 'text' : 'password'}
               handleShowPassword={handleShowPassword}
@@ -102,6 +107,7 @@ const Auth = () => {
               <Input
                 name='confirmPassword'
                 label='Repeat Password'
+                value={formData.confirmPassword}
                 handleChange={handleChange}
                 type='password'
               />
