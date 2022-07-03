@@ -2,10 +2,23 @@ import { AppBar, Avatar, Button, Toolbar, Typography } from '@material-ui/core';
 import React from 'react';
 import useStyles from './styles';
 import headerImage from '../../images/header_image.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useUser } from '../../hooks/useUser';
+import { logoutUser } from '../../actions/authActions';
+import { useDispatch } from 'react-redux';
+
 const Navbar = () => {
   const classes = useStyles();
-  const user = {};
+  const [user, setUser] = useUser();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem('profile');
+    dispatch(logoutUser());
+    navigate('/');
+    setUser(null);
+  };
 
   return (
     <AppBar
@@ -50,7 +63,7 @@ const Navbar = () => {
               variant='contained'
               className={classes.logout}
               color='secondary'
-              // onClick={logout}
+              onClick={logout}
             >
               Logout
             </Button>

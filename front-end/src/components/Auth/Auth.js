@@ -12,10 +12,14 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Input from '../Input/Input';
 import { GoogleLogin } from 'react-google-login';
 import Icon from './Icon';
+import { useDispatch } from 'react-redux';
+import { authenticate } from '../../actions/authActions.js';
+import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
-  console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID);
+  const navigate = useNavigate();
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [isSignup, setIsSignup] = useState(true);
   const handleSubmit = () => {};
   const handleChange = () => {};
@@ -31,18 +35,20 @@ const Auth = () => {
     setShowPassword(false);
   };
 
-  const googleError = () =>
+  const googleError = err =>
     alert('Google Sign In was unsuccessful. Try again later');
 
   const googleSuccess = async res => {
-    // const result = res?.profileObj;
-    // const token = res?.tokenId;
-    // try {
-    //   dispatch({ type: AUTH, data: { result, token } });
-    //   history.push('/');
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    console.log(res);
+    const result = res?.profileObj;
+    const token = res?.tokenId;
+
+    try {
+      dispatch(authenticate(result, token));
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Container
@@ -110,6 +116,25 @@ const Auth = () => {
           >
             {isSignup ? 'Sign Up' : 'Sign In'}
           </Button>
+          <GoogleLogin
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            render={renderProps => (
+              <Button
+                className={classes.googleButton}
+                color='primary'
+                fullWidth
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+                startIcon={<Icon />}
+                variant='contained'
+              >
+                Google Sign In
+              </Button>
+            )}
+            onSuccess={googleSuccess}
+            onFailure={googleError}
+            cookiePolicy='single_host_origin'
+          />
           <Grid
             container
             justifyContent='flex-end'
@@ -120,25 +145,6 @@ const Auth = () => {
                   ? 'Already have an account?'
                   : "Don't have an account?"}
               </Typography>
-              <GoogleLogin
-                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                render={renderProps => (
-                  <Button
-                    className={classes.googleButton}
-                    color='primary'
-                    fullWidth
-                    onClick={renderProps.onClick}
-                    disabled={renderProps.disabled}
-                    startIcon={<Icon />}
-                    variant='contained'
-                  >
-                    Google Sign In
-                  </Button>
-                )}
-                onSuccess={googleSuccess}
-                onFailure={googleError}
-                cookiePolicy='single_host_origin'
-              />
               <Button
                 onClick={changeMode}
                 variant='contained'
