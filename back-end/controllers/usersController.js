@@ -33,7 +33,7 @@ export const signIn = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
-    res.status(200).json({ token, existingUser });
+    res.status(200).json({ result: existingUser, token });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

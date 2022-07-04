@@ -21,7 +21,7 @@ const Auth = () => {
   const navigate = useNavigate();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [isSignup, setIsSignup] = useState(true);
+  const [isSignup, setIsSignup] = useState(false);
   const [handleChange, handleSubmit] = useLoginForm({ isSignup });
   const formData = useSelector(state => state.auth.formData);
 

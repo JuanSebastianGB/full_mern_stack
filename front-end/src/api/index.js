@@ -1,31 +1,24 @@
 import axios from 'axios';
 
-const URL = 'http://localhost:5000/posts';
+const API = axios.create({ baseURL: 'http://localhost:5000' });
 
-/**
- * It returns a promise that will resolve to the response of a GET request to the url
- */
-export const fetchPosts = () => axios.get(URL);
-/**
- * It takes a post object as an argument, and then uses axios to make a POST request to the url
- * variable, which is the URL of the API endpoint
- */
-export const createPost = post => axios.post(URL, post);
+API.interceptors.request.use(req => {
+  if (localStorage.getItem('profile')) {
+    req.headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem('profile')).token
+    }`;
+  }
 
-/**
- * It takes a post object as an argument, and then uses axios to make a PUT request to the URL of the
- * post, with the post object as the second argument
- */
-export const updatePost = post => axios.put(`${URL}/${post._id}`, post);
+  return req;
+});
 
-/**
- * It takes an id as an argument, and then uses axios to make a DELETE request to the URL with the id
- * appended to the end
- */
-export const deletePost = id => axios.delete(`${URL}/${id}`);
+// posts
+export const fetchPosts = () => API.get('/posts');
+export const createPost = post => API.post('/posts', post);
+export const updatePost = post => API.put(`/posts/${post._id}`, post);
+export const deletePost = id => API.delete(`/posts/${id}`);
+export const likePost = id => API.put(`/posts/${id}/like`, { id });
 
-/**
- * It makes a PUT request to the URL of the post with the given id, and appends /like to the end of the
- * URL
- */
-export const likePost = id => axios.put(`${URL}/${id}/like`, { id });
+// auth
+export const signUp = user => API.post('/users/auth/signup', user);
+export const signIn = user => API.post('/users/auth/signin', user);

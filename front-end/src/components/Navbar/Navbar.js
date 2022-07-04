@@ -13,6 +13,8 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  console.log('at this point user is : ', user);
+
   const logout = () => {
     localStorage.removeItem('profile');
     dispatch(logoutUser());

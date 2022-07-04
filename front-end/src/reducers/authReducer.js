@@ -1,11 +1,4 @@
-import {
-  AUTH,
-  CLEAR_FORM_DATA,
-  FILL_FORM_DATA,
-  LOGOUT,
-  SIGN_IN,
-  SIGN_UP,
-} from '../types';
+import { AUTH, CLEAR_FORM_DATA, FILL_FORM_DATA, LOGOUT } from '../types';
 
 /* Setting the initial state of the form data. */
 const initialFormData = {
@@ -41,18 +34,6 @@ export const authReducer = (
         ...state,
         authenticated: false,
         authData: null,
-      };
-    case SIGN_IN:
-      console.log(action.payload);
-      return {
-        ...state,
-        formData: action?.payload,
-      };
-    case SIGN_UP:
-      console.log(action.payload);
-      return {
-        ...state,
-        formData: action?.payload,
       };
     case CLEAR_FORM_DATA:
       return {

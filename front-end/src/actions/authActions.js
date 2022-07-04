@@ -1,11 +1,6 @@
-import {
-  AUTH,
-  CLEAR_FORM_DATA,
-  FILL_FORM_DATA,
-  LOGOUT,
-  SIGN_IN,
-  SIGN_UP,
-} from '../types';
+import * as api from '../api';
+
+import { AUTH, CLEAR_FORM_DATA, FILL_FORM_DATA, LOGOUT } from '../types';
 
 /**
  * It returns an object with a type property and a data property
@@ -24,9 +19,10 @@ export const logoutUser = () => ({ type: LOGOUT });
  * It takes in a dispatch function as an argument, and then dispatches an action object with a type of
  * SIGN_IN
  */
-export const signIn = (data, navigate) => async dispatch => {
+export const signIn = (formData, navigate) => async dispatch => {
   try {
-    dispatch({ type: SIGN_IN, payload: data });
+    const { data } = await api.signIn(formData);
+    dispatch({ type: AUTH, data });
     navigate('/');
   } catch (err) {
     console.log(err);
@@ -37,9 +33,10 @@ export const signIn = (data, navigate) => async dispatch => {
  * It's a function that takes in a dispatch function as an argument and returns a function that
  * dispatches an action object with a type of SIGN_UP
  */
-export const signUp = (data, navigate) => async dispatch => {
+export const signUp = (formData, navigate) => async dispatch => {
   try {
-    dispatch({ type: SIGN_UP, payload: data });
+    const { data } = await api.signUp(formData);
+    dispatch({ type: AUTH, data });
     navigate('/');
   } catch (err) {
     console.log(err);

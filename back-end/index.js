@@ -12,7 +12,7 @@ app.use(express.json({ limit: '50mb', extended: true }));
 app.use(cors('*'));
 app.use(morgan('dev'));
 app.use('/posts', postRoutes);
-app.use('/users', usersRoutes);
+app.use('/users/auth', usersRoutes);
 dotenv.config();
 
 const CONNECTION_URL =

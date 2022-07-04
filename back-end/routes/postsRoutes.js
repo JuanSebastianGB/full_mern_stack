@@ -6,7 +6,7 @@ import {
   likePost,
   updatePost,
 } from '../controllers/postsController.js';
-import auth from '../middleware/auth.js';
+import auth from '../middleweare/auth.js';
 const router = express.Router();
 
 router.get('/', getPosts);

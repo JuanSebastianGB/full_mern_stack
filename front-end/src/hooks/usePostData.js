@@ -9,6 +9,7 @@ import { createPost, updatePost } from '../actions/postsActions';
  * is the setPostData function.
  */
 export const usePostData = () => {
+  const user = JSON.parse(localStorage.getItem('profile'));
   const currentId = useSelector(state => state.currentId);
   const dispatch = useDispatch();
   const [postData, setPostData] = useState({
@@ -32,12 +33,12 @@ export const usePostData = () => {
     e.preventDefault();
 
     if (currentId === 0) {
-      dispatch(createPost(postData));
+      dispatch(createPost({ ...postData, name: user?.result.name }));
       clear();
       dispatch(clearCurrentId());
       return;
     }
-    dispatch(updatePost(postData));
+    dispatch(updatePost({ ...postData, name: user?.result.name }));
     clear();
     dispatch(clearCurrentId());
   };
@@ -60,5 +61,5 @@ export const usePostData = () => {
     dispatch(clearCurrentId());
   };
 
-  return [postData, setPostData, currentId, handleSubmit, handleChange, clear];
+  return [user,postData, setPostData, currentId, handleSubmit, handleChange, clear];
 };

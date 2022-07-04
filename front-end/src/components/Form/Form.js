@@ -6,9 +6,23 @@ import { usePostData } from '../../hooks/usePostData.js';
 
 const Form = () => {
   const classes = useStyles();
-  const [postData, setPostData, currentId, handleSubmit, handleChange, clear] =
-    usePostData();
+  const [
+    user,
+    postData,
+    setPostData,
+    currentId,
+    handleSubmit,
+    handleChange,
+    clear,
+  ] = usePostData();
 
+  if (!user) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant='h5'>Please login to create elements</Typography>
+      </Paper>
+    );
+  }
   return (
     <Paper className={classes.paper}>
       <form
@@ -20,14 +34,7 @@ const Form = () => {
         <Typography variant='h6'>
           {currentId === 0 ? 'Creating' : 'updating'}
         </Typography>
-        <TextField
-          name='creator'
-          variant='outlined'
-          label='Creator'
-          fullWidth
-          value={postData.creator}
-          onChange={handleChange}
-        ></TextField>
+
         <TextField
           name='title'
           variant='outlined'

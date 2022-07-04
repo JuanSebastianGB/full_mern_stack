@@ -11,6 +11,7 @@ export const useUser = () => {
 
   useEffect(() => {
     const token = user?.token;
+    console.log('meanwhile.....');
     setUser(JSON.parse(localStorage.getItem('profile')));
   }, [location]);
 
